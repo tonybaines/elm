@@ -33,8 +33,7 @@ suite =
             \fuzzedString ->
                 fuzzedString
                     --                    |> Debug.log fuzzedString
-                    |>
-                        uppercaseLongerThan10
+                    |> uppercaseLongerThan10
                     |> if (String.length fuzzedString <= 10) then
                         Expect.equal fuzzedString
                        else
