@@ -1,0 +1,22 @@
+Running 5 tests. To reproduce these results, run: elm-test --fuzz 100 --seed 411723974
+
+↓ Exercise2Test
+↓ Uppercasing long strings
+✗ with a fuzzed input
+
+Given "           "
+
+    "           "
+    ╷
+    │ Expect.notEqual
+    ╵
+    "           "
+
+
+
+TEST RUN FAILED
+
+Duration: 209 ms
+Passed:   4
+Failed:   1
+
