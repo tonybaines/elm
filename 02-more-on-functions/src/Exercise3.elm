@@ -6,8 +6,8 @@ import Regex exposing (HowMany(All), regex)
 
 wordCount : String -> Int
 wordCount =
-    String.split " "
-        >> List.filter (\i -> (String.isEmpty i) == False)
+    String.words
+        >> List.filter (not << String.isEmpty)
         >> List.length
 
 
