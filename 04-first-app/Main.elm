@@ -11,13 +11,16 @@ import Html.Events exposing (..)
 type alias Model =
     { totalCalories : Int
     , caloriesToAdd : Int
+    , calorieColour : String
     }
 
 
 initModel : Model
 initModel =
     { totalCalories = 0
-    , caloriesToAdd = 0}
+    , caloriesToAdd = 0
+    , calorieColour = "black"
+    }
 
 
 
@@ -34,17 +37,41 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         AddCalorie ->
-            { model | totalCalories = model.totalCalories + model.caloriesToAdd }
+            let
+                newTotal =
+                    model.totalCalories + model.caloriesToAdd
+
+                colour =
+                    if newTotal == 0 then
+                        "black"
+                    else if newTotal <= 1000 then
+                        "green"
+                    else if newTotal <= 1500 then
+                        "gold"
+                    else if newTotal <= 2000 then
+                        "orange"
+                    else if newTotal <= 2500 then
+                        "coral"
+                    else
+                        "red"
+            in
+                { model
+                    | totalCalories = newTotal
+                    , calorieColour = colour
+                }
 
         CalorieValueUpdated newValue ->
             case newValue of
-              "" -> {model | caloriesToAdd = 0}
-              _ -> case String.toInt newValue of
-                Err msg ->
-                    model
+                "" ->
+                    { model | caloriesToAdd = 0 }
 
-                Ok val ->
-                    { model | caloriesToAdd = val }
+                _ ->
+                    case String.toInt newValue of
+                        Err msg ->
+                            model
+
+                        Ok val ->
+                            { model | caloriesToAdd = val }
 
         Clear ->
             initModel
@@ -57,7 +84,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ h3 []
+        [ h3
+            [ style [ ( "color", model.calorieColour ) ]
+            ]
             [ text ("Total Calories: " ++ (toString model.totalCalories)) ]
         , input
             [ type_ "text"
